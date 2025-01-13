@@ -20,8 +20,6 @@ export default function SignIn() {
     } else {
       Alert.alert('Error', 'Failed to login')
     }
-
-
   }
   return (
     <SafeAreaView className='bg-white h-full'>
@@ -57,4 +55,3 @@ export default function SignIn() {
   )
 }
 
-const styles = StyleSheet.create({})

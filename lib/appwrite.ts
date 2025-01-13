@@ -3,8 +3,8 @@ import * as Linking from 'expo-linking';
 import { openAuthSessionAsync } from 'expo-web-browser';
 export const config = {
   platform: 'com.jsm.restate',
-  endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,
-  projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
+  endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT || 'https://cloud.appwrite.io/v1',
+  projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID || '67828afb00288d0e4305',
 }
 
 export const client = new Client();
