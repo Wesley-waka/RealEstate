@@ -80,7 +80,7 @@ const index = () => {
               </View>
 
               {latestPropertiesLoading ? (<ActivityIndicator size='large' className='text-primary-300' />) : !latestProperties || latestProperties.length === 0 ? <NoResults /> : <FlatList
-                data={latestProperties} renderItem={({ item }) => <FeaturedCard item={item} onPress={() => handleCardPress(item.$id)} />} keyExtractor={(item) => item.toString()} horizontal
+                data={latestProperties} renderItem={({ item }) => <FeaturedCard item={item} onPress={() => handleCardPress(item.$id)} />} keyExtractor={(item) => item.$id} horizontal
                 bounces={false}
                 showsHorizontalScrollIndicator={false}
                 contentContainerClassName='flex gap-5 mt-5'
