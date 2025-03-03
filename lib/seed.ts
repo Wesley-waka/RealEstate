@@ -147,6 +147,7 @@ async function seed() {
         .sort(() => 0.5 - Math.random())
         .slice(0, Math.floor(Math.random() * facilities.length) + 1);
 
+
       const image =
         propertiesImages.length - 1 >= i
           ? propertiesImages[i]
