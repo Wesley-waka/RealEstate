@@ -20,7 +20,12 @@ import { useAppwrite } from "@/lib/useAppwrite";
 import { useGlobalContext } from "@/lib/global-provider";
 import { getLatestProperties, getProperties } from "@/lib/appwrite";
 import seed from "@/lib/seed";
+import Rheostat, {BarRheostat, RheostatThemeProvider} from "react-native-rheostat";
+import Divider from "@/components/Divider";
 
+interface HandleState{
+  values: number[];
+}
 const Home = () => {
   const { user } = useGlobalContext();
   const [modalVisible, setModalVisible] = useState(false);
@@ -52,6 +57,32 @@ const Home = () => {
       limit: 6,
     });
   }, [params.filter, params.query]);
+
+  const demoTwoValues = [20,50]
+  const demoSnaps = [0,20,30,40,50,60,70,80,100];
+
+  const filterBar = {
+    snapPoints: [0,60,120,180,240,300,330,360,420,480,540,570,600,630,660,690,
+      720,750,780,810,840,870,900,930,960,990,1020,1050,1080,1110,1140,1170,1200,
+      1260,1320,1380,
+      1440],
+    values: [
+      480, 1040
+    ],
+    svgData: [ 50, 50, 10, 10, 40, 40, 95,95, 85, 85, 91, 35, 53, 53, 24, 50,
+      50, 10, 40, 95, 85, 91, 35, 53,  24, 50,
+      50, 10, 40, 95, 85, 91, 35, 53,  50, 50,
+      50, 10, 40, 95, 91, 91, 24, 24,  50, 50,
+      10, 10,  ]
+  };
+
+  const [timeRange,setTimeRange] = useState<number[]>([10, 80]);
+
+
+
+  const onRheostatValUpdated = (state: HandleState): void => {
+    setTimeRange(state.values);
+  };
 
   const handleCardPress = (id: string) => router.push(`/properties/${id}`);
 
@@ -157,13 +188,13 @@ const Home = () => {
             }}
             hardwareAccelerated={true}
         >
+
           <View style={styles.centeredView}>
             <View style={styles.modalView} >
-              <View>
+              <View className="flex flex-row items-center justify-between">
                 <TouchableOpacity onPress={handleRemoveFilters}>
                   <Image source={icons.chevronLeft} className='size-5' />
                 </TouchableOpacity>
-              </View>
               <Text className="text-lg font-rubik-bold text-black-300">
                 Filters
               </Text>
@@ -172,8 +203,84 @@ const Home = () => {
                   Reset
                 </Text>
               </TouchableHighlight>
+              </View>
+
+              <View>
+                <Text className="text-lg font-rubik-bold text-black-300">Price Range</Text>
+
+                <BarRheostat values={filterBar.values} min={0} max={1440}
+                             snap={true} snapPoints={filterBar.snapPoints}
+                             svgData = {filterBar.svgData}
+                             onValuesUpdated={onRheostatValUpdated}
+                             theme={{ rheostat: { themeColor: '#0061FF', grey: '#fafafa' } }}
+                />
+
+                <Text className="text-lg font-rubik-bold text-black-300 mt-4">Property Type</Text>
+
+                  <Filters />
+
+              </View>
+
+              <View className='mt-2'>
+                <Text className="text-lg font-rubik-bold text-black-300">Home Details</Text>
+
+                <View className="my-3 flex flex-row justify-between">
+                  <Text className="text-xl text-black-200">Bedrooms</Text>
+
+                  <View className='flex flex-row items-center justify-between gap-4'>
+                    <View className='p-[10px] bg-blue-50 rounded-full'>
+                      <Image source={icons.minus} className='size-4 ' />
+                    </View>
+
+                    <Text>3</Text>
+                    <View className='p-[10px] bg-blue-50 rounded-full'>
+                      <Image source={icons.add} className='size-3 ' />
+                    </View>
+                  </View>
+
+                </View>
+
+                <Divider/>
+
+                <View className="my-3 flex flex-row justify-between">
+                  <Text className="text-xl text-black-200">Bathroom</Text>
+
+                  <View className='flex flex-row items-center justify-between gap-4'>
+                    <View className='p-[10px] bg-blue-50 rounded-full'>
+                      <Image source={icons.minus} className='size-4 ' />
+                    </View>
+
+                    <Text>3</Text>
+                    <View className='p-[10px] bg-blue-50 rounded-full'>
+                      <Image source={icons.add} className='size-3 ' />
+                    </View>
+                  </View>
+
+                </View>
+
+
+              </View>
+
+
+              <View>
+                <Text className="text-lg font-rubik-bold text-black-300">Building Size</Text>
+
+
+                <Rheostat values={demoTwoValues} min={0} max={100}
+                          snap snapPoints={demoSnaps}
+                          theme={{ rheostat: { themeColor: '#0061FF', grey: '#fafafa' } }}
+                />
+              </View>
+
+              <TouchableOpacity className="flex-end mt-10 flex-row items-center justify-center bg-primary-300 py-4 rounded-full shadow-md shadow-zinc-400">
+                <Text className="text-white text-lg text-center font-rubik-bold">
+                  Set Filter
+                </Text>
+              </TouchableOpacity>
+
             </View>
           </View>
+
         </Modal>
       </SafeAreaView>
   );
@@ -190,9 +297,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderBottomEndRadius: 30,
     borderRadius: 20,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+
     padding: 15,
     height: '70%',
     width: '100%', // Adjust width as needed

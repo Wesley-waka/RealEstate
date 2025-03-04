@@ -32,9 +32,15 @@ import wifi from "@/assets/icons/wifi.png";
 import location from "@/assets/icons/location.png";
 import edit from "@/assets/icons/edit.png";
 import chevronLeft from "@/assets/icons/left-chevron.png";
+import add from '@/assets/icons/img.png';
+import subtract from '@/assets/icons/img_2.png';
+import minus from '@/assets/icons/minus.png';
 
 export default {
+  add,
+  minus,
   google,
+  subtract,
   home,
   search,
   person,
